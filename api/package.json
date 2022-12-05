@@ -1,0 +1,41 @@
+{
+  "name": "node-boilerplate",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.ts",
+    "test": "mocha test/index.ts",
+    "lint:fix": "eslint --fix ./*.js",
+    "prisma:generate": "npx prismerge -i prismerge.json && npx prisma generate"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "@prisma-utils/prismerge": "^1.7.0",
+    "@types/compression": "^1.7.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.14",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.11.10",
+    "chai": "^4.3.6",
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^9.2.2",
+    "prettier": "^2.6.2",
+    "typescript": "^4.9.3"
+  }
+}
