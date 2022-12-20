@@ -1,5 +1,5 @@
 import express, { Express } from 'express';
-import plugins from './plugins/index';
+import plugins from './plugins/index.plugin';
 import 'dotenv/config';
 
 const startServer = async () => {

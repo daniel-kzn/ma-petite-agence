@@ -5,9 +5,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.ts",
+    "start": "nodemon --es-module-specifier-resolution=node --trace-warnings dist/index.js",
     "test": "mocha test/index.ts",
+    "dev": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "lint:fix": "eslint --fix ./*.js",
+    "build": "tsc",
+    "prisma:seed": "ts-node prisma/seed.ts",
     "prisma:generate": "npx prisma generate"
   },
   "author": "",
