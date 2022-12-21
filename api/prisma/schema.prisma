@@ -10,28 +10,110 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  firstName     String
+  lastName      String
+  birthDate     DateTime
+  phone         String?
+  encryptedPassword String
+  job           String?
+  client        String?
+  linkedin      String?
+  role          Role @relation(fields: [roleId], references: [id])
+  roleId        Int
+  messages      Message[]
+  conversations UsersConversations[]
+  posts Post[]
+  activated     Boolean
+  createdAt     DateTime
+  hiredAt       DateTime?
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  name String
+  users User[]
+}
+
+model Media {
+  id Int @id @default(autoincrement())
+  fileName String
+  fileLink String
+  createdAt DateTime
+}
+
+model Conversation {
+  id Int @id @default(autoincrement())
+  title String
+  users UsersConversations[]
+  createdAt DateTime
+}
+
+model UsersConversations {
+  user User     @relation(fields: [userId], references: [id])
+  userId Int
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+  conversationId Int
+  addedAt DateTime
+  @@id([userId, conversationId])
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+  content String
+  sender User @relation(fields: [senderId], references: [id])
+  senderId Int
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  type PostType @relation(fields: [typeId], references: [id])
+  typeId Int
+  actuality Acutality?
+  survey Survey?
+  reactions Reaction[]
+  comments Comment[]
+  createdAt DateTime
+}
+
+model PostType {
+  id Int @id @default(autoincrement())
+  name String
+  posts Post[]
+}
+
+model Acutality {
+  id Int @id @default(autoincrement())
+  content String
+  post Post @relation(fields: [postId], references: [id])
+  postId Int @unique
+}
+
+model Survey {
+  id Int @id @default(autoincrement())
+  question String
+  post Post @relation(fields: [postId], references: [id])
+  postId Int @unique
+}
+
+model Reaction {
+  id Int @id @default(autoincrement())
+  emoji String
+  post Post @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  content String
+  post Post @relation(fields: [postId], references: [id])
+  postId Int
+  commentId Int
+  comment Comment? @relation("CommentOfComment", fields: [commentId], references: [id])
+  comments Comment[] @relation("CommentOfComment")
+  createdAt DateTime
 }
